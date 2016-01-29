@@ -1,7 +1,7 @@
 <%= render "shared/login_form" %>
 <h2>最新ニュース</h2>
 <ul>
-  <%= Article.sidebar_articles(5).each do |article| %>
+  <%= Article.sidebar_articles(current_member, 5).each do |article| %>
     <li> <%= render "article.title", article %></li>
   <% end %>
 </ul>
