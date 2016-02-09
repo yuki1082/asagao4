@@ -10,6 +10,7 @@ gem 'rails-i18n'
 		gem 'factory_girl_rails', '~> 4.4.0'
 	end
 
+gem 'will_paginate', '~> 3.0'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
