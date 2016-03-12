@@ -1,7 +1,7 @@
 class Member < ActiveRecord::Base
   include EmailAddressChecker
   attr_accessor :password, :password_confirmation
-
+  has_many :entries
   validates :number, presence: true,
     numericality:{ only_integer: true, greter_than: 0, less_than: 100, allow_blank: true,
                    uniqueness: true }
@@ -11,8 +11,6 @@ class Member < ActiveRecord::Base
     uniqueness: { case_sensitive: false }
 
   validates :password, presence: { on: :create }, confirmation: { allow_blank: true }
-
-
   validates :full_name, length: { maximum: 20 }
   validate :check_email
 
