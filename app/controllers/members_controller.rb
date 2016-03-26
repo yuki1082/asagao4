@@ -8,10 +8,16 @@ class MembersController < ApplicationController
 
   def show
     @member = Member.find(params[:id])
+    if params[:format].in?(["jpg","png","gjf"])
+      send_image
+    else
+      render "show"
+    end
   end
 
   def new
     @member = Member.new(birthday: Date.new(1980, 1, 1))
+    @member.build_image
   end
 
 
@@ -26,6 +32,7 @@ class MembersController < ApplicationController
 
   def edit
     @member = Member.find(params[:id])
+    @member.build_image unless @member.image
   end
 
   def update
@@ -54,7 +61,16 @@ class MembersController < ApplicationController
     attrs = [:number, :name, :full_name, :gender, :birthday, :email, :password,
              :passowrd_confirmation]
     attrs << :administrator if current_member.administrator?
+    attrs << { image_attributes: [:destroy, :id, :uploaded_image]}
     params.require(:member).permit(attrs)
-
   end
+
+  def send_image
+    if @member.image.present?
+      send_data @member.image.data, type: @member.image.content_type, disposition: "inline"
+    else
+      raise NotFound
+    end
+  end
+  
 end

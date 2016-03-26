@@ -2,6 +2,8 @@ class Member < ActiveRecord::Base
   include EmailAddressChecker
   attr_accessor :password, :password_confirmation
   has_many :entries
+  has_one :image, class_name: "MemberImage", dependent: :destroy
+  accepts_nested_attributes_for :image, allow_destroy: true
   validates :number, presence: true,
     numericality:{ only_integer: true, greter_than: 0, less_than: 100, allow_blank: true,
                    uniqueness: true }
