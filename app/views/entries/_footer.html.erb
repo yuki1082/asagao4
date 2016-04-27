@@ -9,4 +9,10 @@ data: { confirm: " 本当に削除しますか? " } %> |
   <% end %>
   by <%= link_to entry.author.name, [entry.author, :entries] %> |
   <%= entry.posted_at.strftime("%Y/%m/%d %H:%M") %>
+  <% if (count = entry.votes.count) > 0 %>
+    | <span class="vote"> ★ <%= count %></span>
+    | <span class="vote"> ★ <%= entry.voters.size %></span>
+    | <span class="vote"> ★ <%= entry.votes.size %></span>
+    | <span class="vote"> ★ <%= entry.voters.count %></span>
+  <% end %>
 </p>

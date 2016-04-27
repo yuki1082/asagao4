@@ -1,0 +1,8 @@
+class Hoge
+  def who?
+    puts self
+  end 
+end 
+
+h = Hoge.new
+h.who?

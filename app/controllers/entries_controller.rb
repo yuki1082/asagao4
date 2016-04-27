@@ -20,7 +20,7 @@ class EntriesController < ApplicationController
 
   def edit
     @entry = current_member.entries.find(params[:id])
- #   @entry = Entry.find(params[:id])
+    #   @entry = Entry.find(params[:id])
 
   end
 
@@ -48,6 +48,24 @@ class EntriesController < ApplicationController
     @entry = current_member.entries.find(params[:id])
     @entry.destroy
     redirect_to :entries, notice: " 記事を削除しました。 "
+  end
+
+  def like
+    @entry = Entry.published.find(params[:id])
+    current_member.voted_entries << @entry
+    redirect_to @entry, notice: " 投票しました。 "
+  end
+
+  def unlike
+    @voted_entry = current_member.voted_entries.find(params[:id])
+    @voted_entry.destroy
+    redirect_to :voted_entries, notice: " 削除しました。 "
+  end
+
+  def voted
+    @entries = current_member.voted_entries.published
+    .order("votes.created_at DESC")
+    .paginate(page: params[:page], per_page: 15)
   end
 
   private
