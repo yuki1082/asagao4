@@ -5,16 +5,24 @@ Rails.application.routes.draw do
   get "internal_server_error" => "top#internal_server_error"
 
 
-  resources :members do
+  resources :members, only:[:index, :show] do
     collection{ get :search}
     resources :entries, only: [:index]
   end
 
-  resources :articles
-  resources :entries do 
+  resources :articles, only:[:index, :show]
+  resources :entries do
     member {patch "like", "unlike"}
     collection{get "voted"}
-  end 
+  end
+
+  namespace :admin do
+    root "top#index"
+    resources :members do
+      collection{ get :search}
+    end
+    resources :articles
+  end
 
   resource :session, only: [:create, :destroy]
   resource :account, only:[:show, :edit, :update]
